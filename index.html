@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Baccarat Pro Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>📊 Baccarat Pro Tracker (วิเคราะห์เค้าไพ่หลัก + รอง)</h2>
+    <div class="input-group">
+        <label>ผล (P/B/T):</label>
+        <input type="text" id="resultInput" placeholder="P, B, T">
+        <label>แต้ม P:</label>
+        <input type="number" id="pointP" min="0" max="9">
+        <label>แต้ม B:</label>
+        <input type="number" id="pointB" min="0" max="9">
+        <label>Big Eye:</label>
+        <input type="text" id="bigEyeInput" placeholder="🔴/🔵">
+        <label>Small:</label>
+        <input type="text" id="smallInput" placeholder="🔴/🔵">
+        <label>Cockroach:</label>
+        <input type="text" id="cockInput" placeholder="🔴/🔵">
+        <button onclick="addRecord()">เพิ่มข้อมูล</button>
+        <button onclick="downloadHistory()">⬇️ ดาวน์โหลดข้อมูล</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ตา</th>
+                <th>ผล</th>
+                <th>แต้ม (P-B)</th>
+                <th>ลักษณะแต้ม</th>
+                <th>เค้าหลัก</th>
+                <th>เค้ารอง</th>
+                <th>แนะแทง</th>
+            </tr>
+        </thead>
+        <tbody id="historyTable"></tbody>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>
