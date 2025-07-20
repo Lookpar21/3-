@@ -1,29 +1,34 @@
-
 let data = JSON.parse(localStorage.getItem('baccarat_data')) || [];
 let currentResult = '', big = '', small = '', cockroach = '';
 
-function addResult(value) { currentResult = value; }
+function addResult(value) {
+    currentResult = value;
+}
 function setEye(type, value) {
     if (type === 'big') big = value;
     if (type === 'small') small = value;
     if (type === 'cockroach') cockroach = value;
 }
 function analyzePattern(results) {
-    const len = results.length;
-    let pattern = '';
-    if (len >= 6 && results.slice(len - 6).every(r => r.result === results[len - 1].result)) {
-        pattern = `มังกร${results[len - 1].result}`;
-    } else if (len >= 3 && results[len - 1].result === results[len - 2].result && results[len - 2].result === results[len - 3].result) {
+    const recent = results.filter(r => !r.isSeparator);
+    const len = recent.length;
+    let pattern = '-';
+
+    if (len >= 6 && recent.slice(-6).every(r => r.result === recent[len - 1].result)) {
+        pattern = `มังกร${recent[len - 1].result}`;
+    } else if (len >= 3 && recent[len - 1].result === recent[len - 2].result && recent[len - 2].result === recent[len - 3].result) {
         pattern = 'ไพ่ติด';
-    } else if (len >= 4 && results[len - 1].result !== results[len - 2].result && results[len - 2].result !== results[len - 3].result && results[len - 3].result !== results[len - 4].result) {
+    } else if (len >= 4 &&
+        recent[len - 1].result !== recent[len - 2].result &&
+        recent[len - 2].result !== recent[len - 3].result &&
+        recent[len - 3].result !== recent[len - 4].result) {
         pattern = 'ปิงปอง';
-    } else {
-        pattern = '-';
     }
+
     return pattern;
 }
 function countPatternStats(results, patternKey) {
-    const match = results.filter(r => r.patternKey === patternKey);
+    const match = results.filter(r => !r.isSeparator && r.patternKey === patternKey);
     const p = match.filter(m => m.result === 'P').length;
     const b = match.filter(m => m.result === 'B').length;
     return `P=${p} / B=${b}`;
@@ -45,19 +50,29 @@ function addRow() {
     updateTable();
     localStorage.setItem('baccarat_data', JSON.stringify(data));
 }
+function addSeparator() {
+    const separatorRow = { isSeparator: true };
+    data.unshift(separatorRow);
+    updateTable();
+    localStorage.setItem('baccarat_data', JSON.stringify(data));
+}
 function updateTable() {
     const tbody = document.querySelector('#dataTable tbody');
     tbody.innerHTML = '';
     data.forEach((row, index) => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${data.length - index}</td>
-            <td>${row.result}</td>
-            <td>${row.bigEye || ''}${row.smallEye || ''}${row.cockroachEye || ''}</td>
-            <td>${row.pattern}</td>
-            <td>${row.advice}</td>
-            <td>${row.stats}</td>
-        `;
+        if (row.isSeparator) {
+            tr.innerHTML = `<td colspan="6" style="text-align:center; background:#eee;">--- เปลี่ยนห้อง ---</td>`;
+        } else {
+            tr.innerHTML = `
+                <td>${data.length - index}</td>
+                <td>${row.result}</td>
+                <td>${row.bigEye || ''}${row.smallEye || ''}${row.cockroachEye || ''}</td>
+                <td>${row.pattern}</td>
+                <td>${row.advice}</td>
+                <td>${row.stats}</td>
+            `;
+        }
         tbody.appendChild(tr);
     });
 }
