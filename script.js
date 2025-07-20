@@ -4,6 +4,7 @@ let currentResult = '', big = '', small = '', cockroach = '';
 function addResult(value) {
     currentResult = value;
 }
+
 function setEye(type, value) {
     if (type === 'big') big = value;
     if (type === 'small') small = value;
@@ -14,16 +15,15 @@ function analyzePattern(results) {
     const recent = results.filter(r => !r.isSeparator);
     const last10 = recent.slice(-10).map(r => r.result).join('');
 
-    if (/^(B)\1{3,}|^(P)\2{3,}/.test(last10)) {
-        return last10.endsWith('B') ? 'มังกรB' : 'มังกรP';
-    }
-    if (/BBB.*BBB|PPP.*PPP/.test(last10)) return 'ไพ่ติด';
+    if (/B{4,}/.test(last10)) return 'มังกรB';
+    if (/P{4,}/.test(last10)) return 'มังกรP';
+    if (/BBPPPBB|PPBBBPP/.test(last10)) return 'ไพ่ติด';
     if (last10.includes('BBPP')) return 'ไพ่คู่';
     if (last10.includes('BPPBPP')) return 'แดง1น้ำเงิน2';
     if (last10.includes('PBBPBB')) return 'น้ำเงิน1แดง2';
     if (last10.includes('BBBBPBBBPB')) return 'แดงต่อ';
     if (last10.includes('PPPBPPPPBP')) return 'น้ำเงินต่อ';
-    if (last10.includes('BPBP') || last10.includes('PBPB')) return 'ปิงปอง';
+    if (last10.includes('PBPB') || last10.includes('BPBP')) return 'ปิงปอง';
     if (last10.includes('BPBPPPB')) return 'เจอแดงลงน้ำเงิน';
     if (last10.includes('PBPBBBP')) return 'เจอน้ำเงินลงแดง';
 
@@ -37,6 +37,22 @@ function countPatternStats(results, patternKey) {
     return `P=${p} / B=${b}`;
 }
 
+function getAdvice(currentResult, big, small, cockroach, pattern) {
+    const blueCount = [big, small, cockroach].filter(v => v === '🔵').length;
+    const redCount = [big, small, cockroach].filter(v => v === '🔴').length;
+
+    if (pattern.includes('มังกร') || pattern === 'ไพ่ติด') {
+        return `ตาม ${currentResult}`;
+    }
+    if (blueCount > redCount) {
+        return `ตาม ${currentResult}`;
+    } else if (redCount > blueCount) {
+        return `สวน ${currentResult}`;
+    } else {
+        return `สวน ${currentResult}`; // เสมอหรือไม่มีข้อมูล เคาะสวนไว้ก่อน
+    }
+}
+
 function addRow() {
     if (!currentResult) return;
     const newRow = {
@@ -47,7 +63,7 @@ function addRow() {
     };
     newRow.patternKey = `${big},${small},${cockroach}`;
     newRow.pattern = analyzePattern(data);
-    newRow.advice = (newRow.pattern.includes('มังกร') || newRow.pattern === 'ไพ่ติด') ? `ตาม ${currentResult}` : `สวน ${currentResult}`;
+    newRow.advice = getAdvice(currentResult, big, small, cockroach, newRow.pattern);
     newRow.stats = countPatternStats(data, newRow.patternKey);
     data.unshift(newRow);
     currentResult = big = small = cockroach = '';
