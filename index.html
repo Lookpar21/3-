@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baccarat Pro Advisor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Baccarat Pro Advisor</h1>
+  <div id="controls">
+    <button onclick="addResult('P')">P</button>
+    <button onclick="addResult('B')">B</button>
+    <button onclick="addResult('T')">T</button>
+    <br/>
+    Big Eye: 
+    <button onclick="setBigEye('🔴')">🔴</button>
+    <button onclick="setBigEye('🔵')">🔵</button>
+    <br/>
+    Small: 
+    <button onclick="setSmall('🔴')">🔴</button>
+    <button onclick="setSmall('🔵')">🔵</button>
+    <br/>
+    Cockroach: 
+    <button onclick="setCockroach('🔴')">🔴</button>
+    <button onclick="setCockroach('🔵')">🔵</button>
+    <br/>
+    <button onclick="resetAll()">รีเซต</button>
+  </div>
+  <table id="historyTable">
+    <thead>
+      <tr><th>ตา</th><th>ผล</th><th>เค้ารอง</th><th>เค้าไพ่</th><th>คำแนะนำ</th><th>เคยออก B/P</th></tr>
+    </thead>
+    <tbody id="historyBody"></tbody>
+  </table>
+  <script src="script.js"></script>
+</body>
+</html>
