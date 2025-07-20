@@ -12,25 +12,24 @@ function setEye(type, value) {
 function analyzePattern(results) {
     const recent = results.filter(r => !r.isSeparator);
     const len = recent.length;
-    if (len === 0) return '-';
+    if (len < 3) return '-';
 
     const last = recent[len - 1].result;
     const last3 = recent.slice(-3).map(r => r.result);
-    const last4 = recent.slice(-4).map(r => r.result);
+    const last4 = recent.slice(-4).map(r => r.result).join(',');
     const last6 = recent.slice(-6).map(r => r.result);
     const last6Same = last6.every(r => r === last);
-    const last2 = last3[1], last1 = last3[2];
 
     if (last6.length === 6 && last6Same) return `มังกร${last}`;
-    if (last3.length === 3 && last3[0] === last3[1] && last3[1] === last3[2]) return 'ไพ่ติด';
-    if (last4.length === 4 && last4[0] !== last4[1] && last4[1] !== last4[2] && last4[2] !== last4[3]) return 'ปิงปอง';
-    if (last4.join(',') === 'P,P,B,B') return 'ไพ่คู่';
-    if (last4.join(',') === 'B,P,P,B') return 'แดง1น้ำเงิน2';
-    if (last4.join(',') === 'P,B,B,P') return 'น้ำเงิน1แดง2';
+    if (last3[0] === last3[1] && last3[1] === last3[2]) return 'ไพ่ติด';
+    if (last3.join('') === 'BPB' || last3.join('') === 'PBP') return 'ปิงปอง';
+    if (last4 === 'P,P,B,B') return 'ไพ่คู่';
+    if (last4 === 'B,P,P,B') return 'แดง1น้ำเงิน2';
+    if (last4 === 'P,B,B,P') return 'น้ำเงิน1แดง2';
     if (last3.join(',') === 'B,P,B') return 'แดงต่อ';
     if (last3.join(',') === 'P,B,P') return 'น้ำเงินต่อ';
-    if (last3.slice(-1)[0] === 'B') return 'เจอแดงลงน้ำเงิน';
-    if (last3.slice(-1)[0] === 'P') return 'เจอน้ำเงินลงแดง';
+    if (last === 'B') return 'เจอแดงลงน้ำเงิน';
+    if (last === 'P') return 'เจอน้ำเงินลงแดง';
 
     return '-';
 }
