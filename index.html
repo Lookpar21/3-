@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Baccarat Advice Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Baccarat Advice Tracker</h1>
+    <div id="controls">
+        <button onclick="addResult('P')">P</button>
+        <button onclick="addResult('B')">B</button>
+        <button onclick="addResult('T')">T</button>
+        <div>
+            เค้ารอง Big Eye:
+            <button onclick="addRoad('big', '🔴')">🔴</button>
+            <button onclick="addRoad('big', '🔵')">🔵</button>
+        </div>
+        <div>
+            เค้ารอง Small:
+            <button onclick="addRoad('small', '🔴')">🔴</button>
+            <button onclick="addRoad('small', '🔵')">🔵</button>
+        </div>
+        <div>
+            เค้ารอง Cockroach:
+            <button onclick="addRoad('cockroach', '🔴')">🔴</button>
+            <button onclick="addRoad('cockroach', '🔵')">🔵</button>
+        </div>
+        <button onclick="addEntry()">เพิ่มผล</button>
+    </div>
+    <table id="historyTable">
+        <thead>
+            <tr>
+                <th>ตา</th>
+                <th>ผล</th>
+                <th>เค้ารอง</th>
+                <th>เค้าไพ่</th>
+                <th>สถิติ B</th>
+                <th>สถิติ P</th>
+                <th>คำแนะนำ</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>
