@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baccarat Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Baccarat Analyzer</h1>
+
+  <div id="controls">
+    <div>
+      <label>ผล:</label>
+      <button onclick="setResult('P')">P</button>
+      <button onclick="setResult('B')">B</button>
+      <button onclick="setResult('T')">T</button>
+    </div>
+    <div>
+      <label>เค้ารอง:</label>
+      Big Eye:
+      <button onclick="setRoad('big', '🔴')">🔴</button>
+      <button onclick="setRoad('big', '🔵')">🔵</button>
+      Small:
+      <button onclick="setRoad('sml', '🔴')">🔴</button>
+      <button onclick="setRoad('sml', '🔵')">🔵</button>
+      Cockroach:
+      <button onclick="setRoad('ck', '🔴')">🔴</button>
+      <button onclick="setRoad('ck', '🔵')">🔵</button>
+    </div>
+    <button onclick="addRecord()">เพิ่มข้อมูล</button>
+    <button onclick="resetData()">รีเซต</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ตา</th>
+        <th>ผล</th>
+        <th>เค้ารอง</th>
+        <th>เค้าไพ่หลัก</th>
+        <th>แนะนำ</th>
+        <th>เคยออก P</th>
+        <th>เคยออก B</th>
+      </tr>
+    </thead>
+    <tbody id="historyTable"></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
