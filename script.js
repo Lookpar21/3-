@@ -12,20 +12,27 @@ function setEye(type, value) {
 function analyzePattern(results) {
     const recent = results.filter(r => !r.isSeparator);
     const len = recent.length;
-    let pattern = '-';
+    if (len === 0) return '-';
 
-    if (len >= 6 && recent.slice(-6).every(r => r.result === recent[len - 1].result)) {
-        pattern = `มังกร${recent[len - 1].result}`;
-    } else if (len >= 3 && recent[len - 1].result === recent[len - 2].result && recent[len - 2].result === recent[len - 3].result) {
-        pattern = 'ไพ่ติด';
-    } else if (len >= 4 &&
-        recent[len - 1].result !== recent[len - 2].result &&
-        recent[len - 2].result !== recent[len - 3].result &&
-        recent[len - 3].result !== recent[len - 4].result) {
-        pattern = 'ปิงปอง';
-    }
+    const last = recent[len - 1].result;
+    const last3 = recent.slice(-3).map(r => r.result);
+    const last4 = recent.slice(-4).map(r => r.result);
+    const last6 = recent.slice(-6).map(r => r.result);
+    const last6Same = last6.every(r => r === last);
+    const last2 = last3[1], last1 = last3[2];
 
-    return pattern;
+    if (last6.length === 6 && last6Same) return `มังกร${last}`;
+    if (last3.length === 3 && last3[0] === last3[1] && last3[1] === last3[2]) return 'ไพ่ติด';
+    if (last4.length === 4 && last4[0] !== last4[1] && last4[1] !== last4[2] && last4[2] !== last4[3]) return 'ปิงปอง';
+    if (last4.join(',') === 'P,P,B,B') return 'ไพ่คู่';
+    if (last4.join(',') === 'B,P,P,B') return 'แดง1น้ำเงิน2';
+    if (last4.join(',') === 'P,B,B,P') return 'น้ำเงิน1แดง2';
+    if (last3.join(',') === 'B,P,B') return 'แดงต่อ';
+    if (last3.join(',') === 'P,B,P') return 'น้ำเงินต่อ';
+    if (last3.slice(-1)[0] === 'B') return 'เจอแดงลงน้ำเงิน';
+    if (last3.slice(-1)[0] === 'P') return 'เจอน้ำเงินลงแดง';
+
+    return '-';
 }
 function countPatternStats(results, patternKey) {
     const match = results.filter(r => !r.isSeparator && r.patternKey === patternKey);
@@ -43,7 +50,7 @@ function addRow() {
     };
     newRow.patternKey = `${big},${small},${cockroach}`;
     newRow.pattern = analyzePattern(data);
-    newRow.advice = newRow.pattern.includes('มังกร') || newRow.pattern === 'ไพ่ติด' ? `ตาม ${currentResult}` : `สวน ${currentResult}`;
+    newRow.advice = (newRow.pattern.includes('มังกร') || newRow.pattern === 'ไพ่ติด') ? `ตาม ${currentResult}` : `สวน ${currentResult}`;
     newRow.stats = countPatternStats(data, newRow.patternKey);
     data.unshift(newRow);
     currentResult = big = small = cockroach = '';
