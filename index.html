@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Baccarat Final App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Baccarat Tracker Pro</h1>
+    <div id="controls">
+        <div>
+            <label>ผลจริง:</label>
+            <button onclick="addResult('P')">P</button>
+            <button onclick="addResult('B')">B</button>
+            <button onclick="addResult('T')">T</button>
+        </div>
+        <div>
+            <label>Big Eye:</label>
+            <button onclick="setEye('big', '🔴')">🔴</button>
+            <button onclick="setEye('big', '🔵')">🔵</button>
+        </div>
+        <div>
+            <label>Small:</label>
+            <button onclick="setEye('small', '🔴')">🔴</button>
+            <button onclick="setEye('small', '🔵')">🔵</button>
+        </div>
+        <div>
+            <label>Cockroach:</label>
+            <button onclick="setEye('cockroach', '🔴')">🔴</button>
+            <button onclick="setEye('cockroach', '🔵')">🔵</button>
+        </div>
+        <button onclick="addRow()">เพิ่มข้อมูล</button>
+        <button onclick="resetData()">รีเซตข้อมูล</button>
+        <button onclick="downloadData()">บันทึกข้อมูล</button>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ตา</th>
+                <th>ผลจริง</th>
+                <th>เค้ารอง</th>
+                <th>เค้าไพ่หลัก</th>
+                <th>คำแนะนำ</th>
+                <th>สถิติเคยออก</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>
