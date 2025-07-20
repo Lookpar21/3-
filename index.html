@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baccarat Pro Final</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Baccarat Pro Final</h1>
+  <div class="controls">
+    <div>
+      <label>ผล:</label>
+      <button onclick="setResult('P')">P</button>
+      <button onclick="setResult('B')">B</button>
+      <button onclick="setResult('T')">T</button>
+    </div>
+    <div>
+      <label>Big Eye:</label>
+      <button onclick="setRoad('big','🔴')">🔴</button>
+      <button onclick="setRoad('big','🔵')">🔵</button>
+    </div>
+    <div>
+      <label>Small:</label>
+      <button onclick="setRoad('sml','🔴')">🔴</button>
+      <button onclick="setRoad('sml','🔵')">🔵</button>
+    </div>
+    <div>
+      <label>Cockroach:</label>
+      <button onclick="setRoad('ck','🔴')">🔴</button>
+      <button onclick="setRoad('ck','🔵')">🔵</button>
+    </div>
+    <button onclick="addRecord()">เพิ่มข้อมูล</button>
+    <button onclick="resetData()">รีเซต</button>
+    <button onclick="downloadData()">ดาวน์โหลด</button>
+  </div>
+  <table id="history">
+    <thead>
+      <tr>
+        <th>ตา</th><th>ผล</th><th>เค้ารอง</th><th>เค้าไพ่หลัก</th><th>คำแนะนำ</th><th>สถิติ P/B</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script src="script.js"></script>
+</body>
+</html>
