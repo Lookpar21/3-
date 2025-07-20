@@ -1,0 +1,18 @@
+
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+.input-panel button {
+  margin: 5px;
+}
+table {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #aaa;
+  padding: 5px;
+  text-align: center;
+}

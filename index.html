@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baccarat Pattern Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Baccarat Pattern Analyzer</h1>
+  <div class="input-panel">
+    <div>
+      <span>ผลจริง:</span>
+      <button onclick="setResult('P')">P</button>
+      <button onclick="setResult('B')">B</button>
+      <button onclick="setResult('T')">T</button>
+    </div>
+    <div>
+      <span>Big Eye:</span>
+      <button onclick="setRoad('big', '🔴')">🔴</button>
+      <button onclick="setRoad('big', '🔵')">🔵</button>
+    </div>
+    <div>
+      <span>Small:</span>
+      <button onclick="setRoad('sml', '🔴')">🔴</button>
+      <button onclick="setRoad('sml', '🔵')">🔵</button>
+    </div>
+    <div>
+      <span>Cockroach:</span>
+      <button onclick="setRoad('ck', '🔴')">🔴</button>
+      <button onclick="setRoad('ck', '🔵')">🔵</button>
+    </div>
+    <button onclick="addRecord()">เพิ่มผล</button>
+    <button onclick="resetAll()">รีเซต</button>
+  </div>
+  <table id="history">
+    <thead>
+      <tr>
+        <th>ตา</th><th>ผล</th><th>Big</th><th>Small</th><th>Cockroach</th>
+        <th>เค้าไพ่หลัก</th><th>ออก B</th><th>ออก P</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script src="script.js"></script>
+</body>
+</html>
