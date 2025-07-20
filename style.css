@@ -1,0 +1,7 @@
+
+body { font-family: 'Sarabun', sans-serif; padding: 20px; background: #f4f4f4; }
+h1 { color: #333; }
+.controls button { margin: 2px; padding: 10px; }
+table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+thead { background: #eee; }
