@@ -9,36 +9,34 @@ function setEye(type, value) {
     if (type === 'small') small = value;
     if (type === 'cockroach') cockroach = value;
 }
+
 function analyzePattern(results) {
     const recent = results.filter(r => !r.isSeparator);
-    const len = recent.length;
-    if (len < 3) return '-';
+    const last10 = recent.slice(-10).map(r => r.result).join('');
 
-    const last = recent[len - 1].result;
-    const last3 = recent.slice(-3).map(r => r.result);
-    const last4 = recent.slice(-4).map(r => r.result).join(',');
-    const last6 = recent.slice(-6).map(r => r.result);
-    const last6Same = last6.every(r => r === last);
-
-    if (last6.length === 6 && last6Same) return `มังกร${last}`;
-    if (last3[0] === last3[1] && last3[1] === last3[2]) return 'ไพ่ติด';
-    if (last3.join('') === 'BPB' || last3.join('') === 'PBP') return 'ปิงปอง';
-    if (last4 === 'P,P,B,B') return 'ไพ่คู่';
-    if (last4 === 'B,P,P,B') return 'แดง1น้ำเงิน2';
-    if (last4 === 'P,B,B,P') return 'น้ำเงิน1แดง2';
-    if (last3.join(',') === 'B,P,B') return 'แดงต่อ';
-    if (last3.join(',') === 'P,B,P') return 'น้ำเงินต่อ';
-    if (last === 'B') return 'เจอแดงลงน้ำเงิน';
-    if (last === 'P') return 'เจอน้ำเงินลงแดง';
+    if (/^(B)\1{3,}|^(P)\2{3,}/.test(last10)) {
+        return last10.endsWith('B') ? 'มังกรB' : 'มังกรP';
+    }
+    if (/BBB.*BBB|PPP.*PPP/.test(last10)) return 'ไพ่ติด';
+    if (last10.includes('BBPP')) return 'ไพ่คู่';
+    if (last10.includes('BPPBPP')) return 'แดง1น้ำเงิน2';
+    if (last10.includes('PBBPBB')) return 'น้ำเงิน1แดง2';
+    if (last10.includes('BBBBPBBBPB')) return 'แดงต่อ';
+    if (last10.includes('PPPBPPPPBP')) return 'น้ำเงินต่อ';
+    if (last10.includes('BPBP') || last10.includes('PBPB')) return 'ปิงปอง';
+    if (last10.includes('BPBPPPB')) return 'เจอแดงลงน้ำเงิน';
+    if (last10.includes('PBPBBBP')) return 'เจอน้ำเงินลงแดง';
 
     return '-';
 }
+
 function countPatternStats(results, patternKey) {
     const match = results.filter(r => !r.isSeparator && r.patternKey === patternKey);
     const p = match.filter(m => m.result === 'P').length;
     const b = match.filter(m => m.result === 'B').length;
     return `P=${p} / B=${b}`;
 }
+
 function addRow() {
     if (!currentResult) return;
     const newRow = {
@@ -56,12 +54,14 @@ function addRow() {
     updateTable();
     localStorage.setItem('baccarat_data', JSON.stringify(data));
 }
+
 function addSeparator() {
     const separatorRow = { isSeparator: true };
     data.unshift(separatorRow);
     updateTable();
     localStorage.setItem('baccarat_data', JSON.stringify(data));
 }
+
 function updateTable() {
     const tbody = document.querySelector('#dataTable tbody');
     tbody.innerHTML = '';
@@ -82,11 +82,13 @@ function updateTable() {
         tbody.appendChild(tr);
     });
 }
+
 function resetData() {
     data = [];
     localStorage.removeItem('baccarat_data');
     updateTable();
 }
+
 function downloadData() {
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -95,4 +97,5 @@ function downloadData() {
     a.download = 'baccarat_data.json';
     a.click();
 }
+
 window.onload = updateTable;
